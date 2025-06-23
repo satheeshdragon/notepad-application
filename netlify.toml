@@ -1,0 +1,30 @@
+# Netlify configuration for a Create React App
+
+[build]
+  # Use npm ci for faster, cleaner installs (better for CI/CD)
+  command = "npm ci && npm run build"
+
+  # This is the directory that Netlify will deploy.
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Optional: Set to skip downloading optional dependencies (can reduce install time)
+  NPM_CONFIG_OPTIONAL = "false"
+
+# Optional: Use Netlify cache plugin to reuse node_modules across builds
+[[plugins]]
+  package = "netlify-plugin-cache"
+
+  [plugins.inputs]
+  paths = [
+    "node_modules",
+    "package-lock.json"
+  ]
+
+# This is the redirect rule for a Single Page Application (SPA).
+# It ensures that any path is served the index.html file, allowing client-side logic to work correctly.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
